@@ -26,7 +26,7 @@ xmlChar *container_parse(char *xml_str) {
 
     xmlNode *root = xmlDocGetRootElement(xml_doc);
     for (xmlNode *current = root->children; current; current = current->next) {
-        if (current->type == XML_ELEMENT_NODE && xmlStrcmp(current->name, (const xmlChar *)"rootfiles") == 0) {
+        if (current->type == XML_ELEMENT_NODE && xmlStrcmp(current->name, (const xmlChar *) "rootfiles") == 0) {
             full_path = rootfile_parse(current);
         }
     }

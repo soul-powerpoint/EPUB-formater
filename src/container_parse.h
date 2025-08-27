@@ -3,6 +3,6 @@
 
 #include <stdio.h>
 
-int container_parse(char *xml_str);
+xmlChar *container_parse(char *xml_str);
 
 #endif

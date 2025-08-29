@@ -8,6 +8,9 @@
 #include "container_parse.h"
 #include "opf_helper.h"
 
+#define LANGUAGE "-l"
+#define SIZE "-s"
+
 static char *zip_read(zip_t *zip_file_archive, char *path, zip_uint64_t *size) {
     struct zip_stat zip_st;
     zip_stat_init(&zip_st);

@@ -5,6 +5,8 @@
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 
+#include "defines.h"
+
 int language_change(zip_t *zip_archive, const char *opf_full_path, xmlDocPtr doc) {
     if (!zip_archive || !opf_full_path || !doc) return -1;
 
@@ -38,18 +40,18 @@ int language_change(zip_t *zip_archive, const char *opf_full_path, xmlDocPtr doc
     return 0;
 }
 
-int child_node_process(xmlNode *currrent) {
+int child_node_process(xmlNode *currrent, const char *language) {
     for (xmlNode *child = currrent->children; child; child = child->next) {
         if (child->type == XML_ELEMENT_NODE && xmlStrcmp(child->name, (const xmlChar *) "language") == 0) {
             // if (xmlNodeSetContent(child, (xmlChar *) "en") != 0) return -1;
-            xmlNodeSetContent(child, (xmlChar *) "en");
+            xmlNodeSetContent(child, (xmlChar *) language);
         }
     }
 
     return 0;
 }
 
-int opf_parse(zip_t *zip_archive, char *xml_str, char *full_path) {
+int opf_parse(zip_t *zip_archive, char *xml_str, char *full_path, const char *language) {
     if (!zip_archive || !full_path || !xml_str) return -1;
     xmlInitParser();
     xmlDocPtr xml_doc = xmlReadMemory(xml_str, (int) strlen(xml_str), NULL, NULL, 0);
@@ -62,7 +64,7 @@ int opf_parse(zip_t *zip_archive, char *xml_str, char *full_path) {
     xmlNode *root = xmlDocGetRootElement(xml_doc);
     for (xmlNode *current = root->children; current; current = current->next) {
         if (current->type == XML_ELEMENT_NODE && xmlStrcmp(current->name, (const xmlChar *) "metadata") == 0) {
-            if (child_node_process(current) != 0) return -1;
+            if (child_node_process(current, language) != 0) return -1;
         }
     }
 

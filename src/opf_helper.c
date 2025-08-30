@@ -41,7 +41,8 @@ int language_change(zip_t *zip_archive, const char *opf_full_path, xmlDocPtr doc
 int child_node_process(xmlNode *currrent) {
     for (xmlNode *child = currrent->children; child; child = child->next) {
         if (child->type == XML_ELEMENT_NODE && xmlStrcmp(child->name, (const xmlChar *) "language") == 0) {
-            if (xmlNodeSetContent(child, (xmlChar *) "en") != 0) return -1;
+            // if (xmlNodeSetContent(child, (xmlChar *) "en") != 0) return -1;
+            xmlNodeSetContent(child, (xmlChar *) "en");
         }
     }
 

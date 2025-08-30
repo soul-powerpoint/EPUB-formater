@@ -7,9 +7,7 @@
 
 #include "container_parse.h"
 #include "opf_helper.h"
-
-#define LANGUAGE "-l"
-#define SIZE "-s"
+#include "defines.h"
 
 static char *zip_read(zip_t *zip_file_archive, char *path, zip_uint64_t *size) {
     struct zip_stat zip_st;
@@ -26,7 +24,7 @@ static char *zip_read(zip_t *zip_file_archive, char *path, zip_uint64_t *size) {
     return buf;
 }
 
-static void format_epub(char *path) {
+static void format_epub(char *path, const char *language) {
     int err;
     zip_t *zip_file_archive = zip_open(path, 0, &err);
 
@@ -40,22 +38,37 @@ static void format_epub(char *path) {
     char *opf_file = zip_read(zip_file_archive, (char *) full_path, &container_size);
     // printf("opf = \n%s\n\n", opf_file);
 
-    opf_parse(zip_file_archive, (char *) opf_file, (char *) full_path);
+    opf_parse(zip_file_archive, (char *) opf_file, (char *) full_path, language);
 
     free(opf_file);
     free(container);
     zip_close(zip_file_archive);
 }
 
+static void parse_arguments(int argc, char **argv) {
+    if (strcmp(argv[1], LANGUAGE) == 0) {
+
+    } else if (strcmp(argv[1], SIZE) == 0) {
+
+    }
+}
+
 int main (int argc, char **argv) {
-    if (argc != 2) {
+    if (argc % 2 != 0) {
         fprintf(stderr, "usage: %s <file.epub>\n", argv[0]);
         return -1;
     }
 
-    xmlInitParser();
-    format_epub(argv[1]);
-    xmlCleanupParser();
+    // parse_arguments(argc, argv[1]);
+
+    if (strcmp(argv[1], LANGUAGE) == 0) {
+        xmlInitParser();
+        format_epub(argv[2], argv[3]);
+        xmlCleanupParser();
+    } else {
+        fprintf(stderr, "currently only support language changing\n", argv[0]);
+        return -1;
+    }
 
     return 0;
 }

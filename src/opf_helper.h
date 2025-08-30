@@ -7,6 +7,6 @@
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 
-int opf_parse(zip_t *za, char *xml_str, char *full_path);
+int opf_parse(zip_t *za, char *xml_str, char *full_path, const char *language);
 
 #endif

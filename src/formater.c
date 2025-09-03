@@ -25,15 +25,16 @@ static char *zip_read(zip_t *zip_file_archive, char *path, zip_uint64_t *size) {
     return buf;
 }
 
-static char *get_opf_str(zip_t *zip_archive, char *full_path, zip_uint64_t *container_size, zip_uint64_t *opf_size) {
+static char *get_opf_str(zip_t *zip_archive, char **full_path, zip_uint64_t *container_size, zip_uint64_t *opf_size) {
     char *container = zip_read(zip_archive, "META-INF/container.xml", container_size);
     xmlChar *full_path_src = container_parse(container);
     char *opf_str = zip_read(zip_archive, (char *) full_path_src, opf_size);
     printf("full_path_src = \n%s\n\n", full_path_src);
 
-    full_path = malloc(sizeof(char) * strlen(full_path_src));
+    *full_path = (char *) malloc(sizeof(char) * (strlen(full_path_src)) + 1);
 
-    strcpy(full_path, full_path_src);
+    strcpy(*full_path, full_path_src);
+    xmlFree(full_path_src);
     free(container);
     return opf_str;
 }
@@ -46,7 +47,7 @@ static void language_change(char *path, const char *language) {
     zip_uint64_t opf_size;
 
     xmlChar *full_path = NULL;
-    char *opf_file = get_opf_str(zip_file_archive, full_path, &container_size, &opf_size);
+    char *opf_file = get_opf_str(zip_file_archive, &full_path, &container_size, &opf_size);
 
     printf("full_path = \n%s\n\n", full_path);
     printf("opf = \n%s\n\n", opf_file);

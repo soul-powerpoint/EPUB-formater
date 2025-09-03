@@ -2,7 +2,7 @@
 
 ## Currently support
 
-- Language switch to English, Hebrew, hindi, chinese, korean, japanese.
+- Language switch to English, Hebrew, Hindi, Chinese, Korean, Japanese.
 
 ## Usage
 

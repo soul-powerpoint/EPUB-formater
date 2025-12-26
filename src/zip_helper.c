@@ -1,7 +1,14 @@
 #include <stdio.h>
+#include <string.h>
 #include <zip.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
+
+#include "container_parse.h"
+#include "opf_helper.h"
+#include "defines.h"
+#include "language_change.h"
+#include "zip_helper.h"
 
 char *zip_read(zip_t *zip_file_archive, char *path, zip_uint64_t *size) {
     struct zip_stat zip_st;
@@ -20,6 +27,9 @@ char *zip_read(zip_t *zip_file_archive, char *path, zip_uint64_t *size) {
 
 char *get_opf_str(zip_t *zip_archive, char **full_path, zip_uint64_t *container_size, zip_uint64_t *opf_size) {
     char *container = zip_read(zip_archive, "META-INF/container.xml", container_size);
+
+    printf("container content %s\n", container);
+
     xmlChar *full_path_src = container_parse(container);
     char *opf_str = zip_read(zip_archive, (char *) full_path_src, opf_size);
     printf("full_path_src = \n%s\n\n", full_path_src);

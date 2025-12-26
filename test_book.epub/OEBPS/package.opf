@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" version="3.0" xml:lang="en" unique-identifier="pub-identifier">
+  <metadata>
+    <dc:identifier id="pub-identifier">_a4f0caea-3d5b-413f-a39e-11e3286b3b87</dc:identifier>
+    <meta id="meta-identifier" property="dcterms:identifier">_a4f0caea-3d5b-413f-a39e-11e3286b3b87</meta>
+    <dc:title id="pub-title">A Man's Woman</dc:title>
+    <meta property="dcterms:title" id="meta-title">A Man's Woman</meta>
+    <dc:language id="pub-language">en</dc:language>
+    <meta property="dcterms:language" id="meta-language">en</meta>
+    <meta property="dcterms:modified">2015-02-13T14:06:19Z</meta>
+    <!--The preceding date value is actually local time (not UTC) in UTC format because there is no function in XSLT 1.0 to generate a correct UTC time-->
+    <meta content="cover-image" name="cover"/>
+    <meta id="meta-creator2" property="dcterms:creator">Frank Norris</meta>
+    <dc:creator id="pub-creator2">Frank Norris</dc:creator>
+    <meta property="dcterms:date">2015-02-13</meta>
+    <dc:date>2015-02-13</dc:date>
+    <meta property="dcterms:publisher">epubBooks Classics</meta>
+    <dc:publisher>epubBooks Classics</dc:publisher>
+    <meta property="dcterms:rights">Copyright © 2015 epubBooks</meta>
+    <dc:rights>Copyright © 2015 epubBooks</dc:rights>
+    <meta property="dcterms:rightsHolder">epubBooks</meta>
+    <meta property="dcterms:subject">Fiction</meta>
+    <dc:subject>Fiction</dc:subject>
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+    <item id="htmltoc" properties="nav" media-type="application/xhtml+xml" href="bk01-toc.xhtml"/>
+    <item media-type="text/css" id="html-css" href="epubbooks.css"/>
+    <item media-type="text/css" id="docbook-css" href="docbook-epub.css"/>
+    <item id="cover" href="cover.xhtml" media-type="application/xhtml+xml"/>
+    <item id="cover-image" properties="cover-image" href="bookcover-generated.jpg" media-type="image/jpeg"/>
+    <item id="id-idp140701538272656" href="index.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701530324672" href="pr01.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701459269392" href="ch01.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701538276800" href="ch02.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701471432768" href="ch03.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701514841840" href="ch04.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701530380960" href="ch05.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701538859344" href="ch06.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701470224304" href="ch07.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701516529104" href="ch08.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701539635232" href="ch09.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701473767152" href="ch10.xhtml" media-type="application/xhtml+xml"/>
+    <item id="id-idp140701539137088" href="ch11.xhtml" media-type="application/xhtml+xml"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="cover" linear="no"/>
+    <itemref idref="htmltoc" linear="yes"/>
+    <itemref idref="id-idp140701538272656"/>
+    <itemref idref="id-idp140701530324672"/>
+    <itemref idref="id-idp140701459269392"/>
+    <itemref idref="id-idp140701538276800"/>
+    <itemref idref="id-idp140701471432768"/>
+    <itemref idref="id-idp140701514841840"/>
+    <itemref idref="id-idp140701530380960"/>
+    <itemref idref="id-idp140701538859344"/>
+    <itemref idref="id-idp140701470224304"/>
+    <itemref idref="id-idp140701516529104"/>
+    <itemref idref="id-idp140701539635232"/>
+    <itemref idref="id-idp140701473767152"/>
+    <itemref idref="id-idp140701539137088"/>
+  </spine>
+  <guide>
+    <reference href="cover.xhtml" type="cover" title="Cover"/>
+    <reference href="bk01-toc.xhtml" type="toc" title="Table of Contents"/>
+  </guide>
+</package>

@@ -31,6 +31,12 @@ char *get_opf_str(zip_t *zip_archive, char **full_path, zip_uint64_t *container_
     printf("container content %s\n", container);
 
     xmlChar *full_path_src = container_parse(container);
+    if (!full_path_src) {
+        fprintf(stderr, "Error in container_parse: full-path not found\n");
+        free(container);
+        return NULL;
+    }
+
     char *opf_str = zip_read(zip_archive, (char *) full_path_src, opf_size);
     printf("full_path_src = \n%s\n\n", full_path_src);
 

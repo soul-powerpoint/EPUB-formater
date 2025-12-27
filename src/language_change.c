@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
+#include <libxml/tree.h>
+#include <libxml/xpathInternals.h>
 #include <zip.h>
 
 #include "container_parse.h"
@@ -54,10 +56,15 @@ void language_change_main(char *path, const char *language) {
     char *full_path = NULL;
     char *opf_file = get_opf_str(zip_file_archive, &full_path, &container_size, &opf_size);
 
+    if (!opf_file) {
+        printf("error in language_change_main\n");
+    }
+
     printf("full_path = \n%s\n\n", full_path);
     printf("opf = \n%s\n\n", opf_file);
 
     free(opf_file);
+    free(full_path);
     zip_close(zip_file_archive);
 
     xmlCleanupParser();

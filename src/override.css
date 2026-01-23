@@ -1,0 +1,150 @@
+@page {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+body {
+    padding: 0;
+    margin-left: 0px;
+    margin-right: 0px;
+    orphans: 0;
+    widows: 0;
+}
+
+p {
+    font-size: 100%;
+    line-height: 100%;
+    margin-top: 5px;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    orphans: 0;
+    widows: 0;
+}
+
+.a {
+    text-indent: 0em;
+}
+
+div.centeredimage {
+    text-align:center;
+    display:block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+img.attpic {
+    border: 1px solid #000000;
+    max-width: 100%;
+    margin: 0;
+}
+
+.booktitle {
+    margin-top: 30%;
+    margin-bottom: 0;
+    border-style: none solid none none;
+    border-width: 50px;
+    border-color: #4E594D;
+    font-size: 3em;
+    line-height: 100%;
+    text-align: right;
+}
+
+.bookauthor {
+    margin-top: 0;
+    border-style: none solid none none;
+    border-width: 50px;
+    border-color: #4E594D;
+    page-break-after: always;
+    font-size: large;
+    line-height: 100%;
+    text-align: right;
+}
+
+.titletoc, .titlel1top, .titlel1std,.titlel2top, .titlel2std,.titlel3top, .titlel3std,.titlel4std {
+    margin-top: 0;
+    border-style: none double none solid;
+    border-width: 0px 5px 0px 20px;
+    border-color: #586357;
+    background-color: #C1CCC0;
+    padding: 45px 5px 5px 5px;
+    font-size: x-large;
+    line-height: 100%;
+    text-align: justify;
+}
+
+.titlel1single,.titlel2single,.titlel3single {
+    margin-top: 35%;
+    border-style: none solid none none;
+    border-width: 30px;
+    border-color: #4E594D;
+    padding: 30px 5px 5px 5px;
+    font-size: x-large;
+    line-height: 100%;
+    text-align: right;
+}
+
+.toc {
+    margin-left:16%;
+    padding:0px;
+    line-height:100%;
+    text-align: justify;
+}
+
+.toc a { text-decoration: none; color: #000000; }
+
+.tocl1 {
+    margin-top:0.5em;
+    margin-left:-30px;
+    border-style: none double double solid;
+    border-width: 0px 5px 2px 20px;
+    border-color: #6B766A;
+    line-height: 100%;
+    font-size: 100%;
+}
+
+.tocl2 {
+    margin-top: 0.5em;
+    margin-left:-20px;
+    border-style: none double none solid;
+    border-width: 0px 2px 0px 10px;
+    border-color: #939E92;
+    line-height: 100%;
+    font-size: 100%;
+}
+
+.tocl3 {
+    margin-top: 0.5em;
+    margin-left:-20px;
+    border-style: none double none solid;
+    border-width: 0px 2px 0px 8px;
+    border-color: #939E92;
+    line-height: 100%;
+    font-size: 100%;
+}
+
+.tocl4 {
+    margin-top: 0.5em;
+    margin-left:-20px;
+    border-style: none double none solid;
+    border-width: 0px 2px 0px 6px;
+    border-color: #939E92;
+    line-height: 100%;
+    font-size: 100%;
+}
+
+.subtoc {
+    margin-left:15%;
+    padding:0px;
+    text-align: justify;
+}
+
+.subtoclist {
+    margin-top: 0.5em;
+    margin-left:-20px;
+    border-style: none double none solid;
+    border-width: 0px 2px 0px 10px;
+    border-color: #939E92;
+    line-height: 100%;
+    font-size: 100%;
+}

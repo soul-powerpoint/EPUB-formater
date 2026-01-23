@@ -2,6 +2,8 @@
 #include <string.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include <libxml/xpath.h>
+#include <libxml/xpathInternals.h>
 
 xmlChar *rootfile_parse(xmlNode *currrent) {
     for (xmlNode *child = currrent->children; child; child = child->next) {

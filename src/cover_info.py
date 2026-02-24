@@ -2,9 +2,9 @@ from PIL import Image
 import sys
 
 def cover_info(path: str):
-    img = Image.open("path")
+    img = Image.open(path)
     w, h = img.size
-    ratio = w / h
+    ratio = h / w
 
     print("width:", w, "height:", h, "ratio:", ratio)
 

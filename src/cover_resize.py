@@ -1,45 +1,62 @@
 from PIL import Image
 import sys
 
+def cover_ratio(img: Image) -> float:
+    w, h = img.size
+    ratio = h / w
+    return ratio
+
+
+def get_side(side: int, new_side: int):
+    start_side = round((side - new_side) / 2, 0)
+    end_side = start_side + new_side
+    return start_side, end_side
+
+
 def cover_resize_stretch(img: Image.Image, ratio: float) -> Image.Image:
     width, height = img.size
     new_h = int(round(width * ratio))
     new_w = width
 
-    out = img.resize((new_w, new_h), Image.BICUBIC)
+    out = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
     out.show()
     return out
 
-# TODO
-def cover_resize_crop(img: Image.Image, target_w: int, target_h: int, *, center = (0.5, 0.5)) -> Image.Image:
+
+def cover_resize_crop(img: Image.Image, ratio: float) -> Image.Image:
+    current_ratio = cover_ratio(img)
     width, height = img.size
-    scale = max(target_w / width, target_h / height)
-    new_w, new_h = int(round(width * scale)), int(round(height * scale))
 
-    img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+    if current_ratio == ratio:
+        return img
 
-    cx, cy = center
-    left = int(round((new_w - target_w) * cx))
-    top  = int(round((new_h - target_h) * cy))
-
-    left = max(0, min(left, new_w - target_w))
-    top  = max(0, min(top,  new_h - target_h))
-
-    return img.crop((left, top, left + target_w, top + target_h))
+    if current_ratio > ratio:
+        base = width
+        side = height
+        new_side = base * ratio
+        start_side, end_side = get_side(side, new_side)
+        return img.crop((0, start_side, base, end_side))
+    elif current_ratio < ratio:
+        base = height
+        side = width
+        new_side = base / ratio
+        start_side, end_side = get_side(side, new_side)
+        return img.crop((start_side, 0, end_side, base))
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("usage: cover_resize.py <image_path>", file=sys.stderr)
+    if len(sys.argv) != 3:
+        print("usage: cover_resize.py <image_path> <ratio>", file=sys.stderr)
         sys.exit(2)
-    inp = sys.argv[1]
-    out = "output.jpg"
+    in_path = sys.argv[1]
+    out_path = "output.jpg"
 
     target_w, target_h = 100, 100
-    ratio = 1.5
+    ratio = sys.argv[2]
 
-    img = Image.open(inp)
+    img = Image.open(in_path)
     img = img.convert("RGB") if img.mode in ("P", "RGBA", "LA") else img
-    # out_im = cover_resize_crop(img, target_w, target_h, center=(0.5, 0.5))
-    out_im = cover_resize_stretch(img, ratio)
-    out_im.save(out, quality=95)
+
+    # out_img = cover_resize_crop(img, ratio)
+    out_img = cover_resize_stretch(img, ratio)
+    out_img.save(out_path, quality=95)

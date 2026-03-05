@@ -1,3 +1,4 @@
+import shutil
 from PIL import Image
 import sys
 
@@ -49,10 +50,17 @@ if __name__ == "__main__":
         print("usage: cover_resize.py <image_path> <ratio>", file=sys.stderr)
         sys.exit(2)
     in_path = sys.argv[1]
+    backup_path = in_path + ".bak"
     out_path = "output.jpg"
 
+    try:
+        shutil.copy2(in_path, backup_path)
+        print("Copied " + in_path + " to " + backup_path + " successfully")
+    except:
+        print("Error in copy")
+
     target_w, target_h = 100, 100
-    ratio = sys.argv[2]
+    ratio = float(sys.argv[2])
 
     img = Image.open(in_path)
     img = img.convert("RGB") if img.mode in ("P", "RGBA", "LA") else img

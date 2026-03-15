@@ -2,3 +2,4 @@
 books/*
 .vscode/*
 *.o
+**/__pycache__/

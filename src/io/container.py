@@ -20,6 +20,7 @@ def get_opf_path(epub_path: str) -> str:
 
     return full_path
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("usage: container.py <path_to_your_file.epub>", file=sys.stderr)

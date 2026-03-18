@@ -1,6 +1,6 @@
-from epub_io.container import get_opf_path
-from epub_io.opf import parse_opf, save_opf, get_cover_item
-from operations.metadata import set_language, set_cover
+from .epub_io.container import get_opf_path
+from .epub_io.opf import parse_opf, save_opf, get_cover_item
+from .operations.metadata import set_language, set_cover
 
 class EpubFormator:
     def __init__(self, epub_path: str):
@@ -14,8 +14,8 @@ class EpubFormator:
 
     def get_author(self):
         return self.data.author
-    
-    
+
+
     def get_language(self):
         return self.data.language
 

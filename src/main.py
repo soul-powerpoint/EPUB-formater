@@ -24,24 +24,15 @@ def command_set_cover(args):
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog = "epub-formater",
-        description = "A CLI tool for editing EPUB metadata"
+        prog="epub-formater",
+        description="A CLI tool for editing EPUB metadata",
     )
-    sub = parser.add_subparsers(dest = "command", required = True)
+    parser.add_argument("epub", help="Path to the EPUB file")
 
-    p_info = sub.add_parser("info", help = "Show metadata of the EPUB file")
-    p_info.add_argument("epub", help="Path to the EPUB file")
-    p_info.set_defaults(func = command_info)
-
-    p_lang = sub.add_parser("set-language", help="Set the language of the EPUB file")
-    p_lang.add_argument("epub", help="Path to the EPUB file")
-    p_lang.add_argument("language", help="BCP-47 language code, e.g. 'en', 'ja', 'zh-CN'")
-    p_lang.set_defaults(func = command_set_language)
-
-    p_cover = sub.add_parser("set-cover", help="Replace the cover image of an EPUB file")
-    p_cover.add_argument("epub", help="Path to the EPUB file")
-    p_cover.add_argument("image", help="Path to the new cover image")
-    p_cover.set_defaults(func = command_set_cover)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-info", action="store_true", help="Show metadata")
+    group.add_argument("-set-language", dest="language", help="BCP-47 language code")
+    group.add_argument("-set-cover", dest="cover", help="Path to new cover image")
 
     return parser
 
@@ -51,15 +42,20 @@ def main():
     args = parser.parse_args()
 
     try:
-        args.func(args)
-    except FileNotFoundError as e:
-        print(f"Error: {e}", file = sys.stderr)
-        sys.exit(1)
-    except ValueError as e:
-        print(f"Error: {e}", file = sys.stderr)
-        sys.exit(1)
+        fmt = EpubFormator(args.epub)
+        if args.info:
+            print(f"Title:    {fmt.get_title()}")
+            print(f"Author:   {fmt.get_author()}")
+            print(f"Language: {fmt.get_language()}")
+            print(f"Cover ID: {fmt.get_cover()}")
+        elif args.language:
+            fmt.set_language(args.language)
+            print(f"Language set to '{args.language}'")
+        elif args.cover:
+            fmt.set_cover(args.cover)
+            print(f"Cover replaced with '{args.cover}'")
     except Exception as e:
-        print(f"Unexpected error: {e}", file = sys.stderr)
+        print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
 

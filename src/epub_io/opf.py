@@ -31,11 +31,12 @@ class SpineItem:
 
 @dataclass
 class OPFData:
-    title:      str = ""
-    author:     str = ""
-    language:   str = ""
-    publisher:  str = ""
-    identifier: str = ""
+    title:          str = ""
+    author:         str = ""
+    language:       str = ""
+    publisher:      str = ""
+    identifier:     str = ""
+    cover_meta_id:  str = ""
 
     manifest: list[ManifestItem] = field(default_factory=list)
     spine:    list[SpineItem]    = field(default_factory=list)
@@ -71,6 +72,20 @@ def save_opf(epub_path: str, opf_path: str, data: OPFData) -> None:
     os.replace(tmp_path, epub_path)
 
 
+def get_cover_item(data: OPFData) -> ManifestItem | None:
+    for item in data.manifest:
+        if "cover-image" in item.properties:
+            return item
+
+    cover_id = data.cover_meta_id
+    if cover_id:
+        for item in data.manifest:
+            if item.id == cover_id:
+                return item
+
+    return None
+
+
 def _parse_metadata(root: ET.Element, data: OPFData) -> None:
     meta = root.find("opf:metadata", NS)
     if meta is None:
@@ -80,11 +95,14 @@ def _parse_metadata(root: ET.Element, data: OPFData) -> None:
         element = meta.find(tag, NS)
         return element.text.strip() if element is not None and element.text else ""
 
-    data.title      = text("dc:title")
-    data.author     = text("dc:creator")
-    data.language   = text("dc:language")
-    data.publisher  = text("dc:publisher")
+    data.title = text("dc:title")
+    data.author = text("dc:creator")
+    data.language = text("dc:language")
+    data.publisher = text("dc:publisher")
     data.identifier = text("dc:identifier")
+    for cover in meta.findall("opf:meta", NS):
+        if cover.get("name") == "cover":
+            data.cover_meta_id = cover.get("content", "")
 
 
 def _parse_manifest(root: ET.Element, data: OPFData) -> None:
@@ -94,8 +112,8 @@ def _parse_manifest(root: ET.Element, data: OPFData) -> None:
 
     for item in manifest.findall("opf:item", NS):
         data.manifest.append(ManifestItem(
-            id         = item.get("id", ""),
-            href       = item.get("href", ""),
+            id = item.get("id", ""),
+            href = item.get("href", ""),
             media_type = item.get("media-type", ""),
             properties = item.get("properties", ""),
         ))
@@ -125,17 +143,22 @@ def _serialize_opf(data: OPFData) -> str:
         el = ET.SubElement(meta, f"{{{DC_NS}}}{tag}")
         el.text = text
 
-    add_dc("title",      data.title)
-    add_dc("creator",    data.author)
-    add_dc("language",   data.language)
-    add_dc("publisher",  data.publisher)
+    add_dc("title", data.title)
+    add_dc("creator", data.author)
+    add_dc("language", data.language)
+    add_dc("publisher", data.publisher)
     add_dc("identifier", data.identifier)
+
+    if data.cover_meta_id:
+        cover_meta = ET.SubElement(meta, f"{{{OPF_NS}}}meta")
+        cover_meta.set("name", "cover")
+        cover_meta.set("content", data.cover_meta_id)
 
     manifest_el = ET.SubElement(root, f"{{{OPF_NS}}}manifest")
     for item in data.manifest:
         el = ET.SubElement(manifest_el, f"{{{OPF_NS}}}item")
-        el.set("id",         item.id)
-        el.set("href",       item.href)
+        el.set("id", item.id)
+        el.set("href", item.href)
         el.set("media-type", item.media_type)
         if item.properties:
             el.set("properties", item.properties)

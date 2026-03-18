@@ -1,3 +1,17 @@
+[build-system]
+requires = ["setuptools >= 68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "EPUB-formater"
 version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "Pillow",
+]
+
+[project.scripts]
+epub-formater = "src.main:main"
+
+[tool.setuptools.packages.find]
+include = ["src*"]

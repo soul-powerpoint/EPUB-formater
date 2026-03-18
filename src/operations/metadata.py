@@ -1,4 +1,4 @@
-from epub_io.opf import OPFData, ManifestItem
+from src.epub_io.opf import OPFData, ManifestItem
 import zipfile
 import os
 

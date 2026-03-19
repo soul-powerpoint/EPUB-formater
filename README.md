@@ -5,7 +5,7 @@ A CLI tool for editing EPUB metadata and cover images.
 ## Installation
  
 ```bash
-git clone https://github.com/your-username/EPUB-formater.git
+git clone https://github.com/soul-powerpoint/EPUB-formater.git
 cd EPUB-formater
 pip install -e .
 ```

@@ -4,3 +4,4 @@ books/*
 *.o
 **/__pycache__/
 __pycache__/
+*.egg-info/

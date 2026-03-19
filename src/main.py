@@ -24,24 +24,21 @@ def command_set_cover(args):
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog = "epub-formater",
-        description = "A CLI tool for editing EPUB metadata"
+        prog="epub-formater",
+        description="A CLI tool for editing EPUB metadata",
     )
-    sub = parser.add_subparsers(dest = "command", required = True)
+    parser.add_argument("epub", help="Path to the EPUB file")
 
-    p_info = sub.add_parser("info", help = "Show metadata of the EPUB file")
-    p_info.add_argument("epub", help="Path to the EPUB file")
-    p_info.set_defaults(func = command_info)
-
-    p_lang = sub.add_parser("set-language", help="Set the language of the EPUB file")
-    p_lang.add_argument("epub", help="Path to the EPUB file")
-    p_lang.add_argument("language", help="BCP-47 language code, e.g. 'en', 'ja', 'zh-CN'")
-    p_lang.set_defaults(func = command_set_language)
-
-    p_cover = sub.add_parser("set-cover", help="Replace the cover image of an EPUB file")
-    p_cover.add_argument("epub", help="Path to the EPUB file")
-    p_cover.add_argument("image", help="Path to the new cover image")
-    p_cover.set_defaults(func = command_set_cover)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-info", action="store_true", help="Show metadata")
+    group.add_argument("-set-language", dest="language", help="BCP-47 language code")
+    group.add_argument("-set-cover", dest="cover", help="Path to new cover image")
+    group.add_argument("-download-cover", dest="download_cover", action="store_true", help="Download the cover")
+    group.add_argument("-cover-info", dest="cover_info", action="store_true", help="Get the cover info")
+    group.add_argument("-resize-cover", dest="resize_cover", choices=["stretch", "crop"],
+                       help="Resize cover: 'stretch' or 'crop'")
+    parser.add_argument("-ratio", type=float, default=1.5,
+                    help="Target height/width ratio (default: 1.5)")
 
     return parser
 
@@ -51,15 +48,22 @@ def main():
     args = parser.parse_args()
 
     try:
-        args.func(args)
-    except FileNotFoundError as e:
-        print(f"Error: {e}", file = sys.stderr)
-        sys.exit(1)
-    except ValueError as e:
-        print(f"Error: {e}", file = sys.stderr)
-        sys.exit(1)
+        fmt = EpubFormator(args.epub)
+        if args.info:
+            fmt.get_epub_info()
+        elif args.language:
+            fmt.set_language(args.language)
+        elif args.cover:
+            fmt.set_cover(args.cover)
+        elif args.download_cover:
+            fmt.download_cover()
+            # print(f"Cover downloaded '{args.download_cover}'")
+        elif args.cover_info:
+            fmt.cover_info()
+        elif args.resize_cover:
+            fmt.resize_cover(args.resize_cover, args.ratio)
     except Exception as e:
-        print(f"Unexpected error: {e}", file = sys.stderr)
+        print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
 

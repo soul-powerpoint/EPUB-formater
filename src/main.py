@@ -35,6 +35,10 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument("-set-cover", dest="cover", help="Path to new cover image")
     group.add_argument("-download-cover", dest="download_cover", action="store_true", help="Download the cover")
     group.add_argument("-cover-info", dest="cover_info", action="store_true", help="Get the cover info")
+    group.add_argument("-resize-cover", dest="resize_cover", choices=["stretch", "crop"],
+                       help="Resize cover: 'stretch' or 'crop'")
+    parser.add_argument("-ratio", type=float, default=1.5,
+                    help="Target height/width ratio (default: 1.5)")
 
     return parser
 
@@ -56,6 +60,8 @@ def main():
             # print(f"Cover downloaded '{args.download_cover}'")
         elif args.cover_info:
             fmt.cover_info()
+        elif args.resize_cover:
+            fmt.resize_cover(args.resize_cover, args.ratio)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)

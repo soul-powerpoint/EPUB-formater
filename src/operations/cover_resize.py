@@ -1,6 +1,7 @@
 import shutil
-from PIL import Image
 import sys
+from PIL import Image
+from src.epub_io.cover import read_cover_image
 
 def cover_ratio(img: Image) -> float:
     w, h = img.size
@@ -43,6 +44,18 @@ def cover_resize_crop(img: Image.Image, ratio: float) -> Image.Image:
         new_side = base / ratio
         start_side, end_side = get_side(side, new_side)
         return img.crop((start_side, 0, end_side, base))
+
+
+def resize_cover(epub_path, opf_path, cover_item, method, ratio) -> Image.Image:
+    img = read_cover_image(epub_path, opf_path, cover_item)
+    img = img.convert("RGB") if img.mode in ("P", "RGBA", "LA") else img
+
+    if method == "stretch":
+        new_cover = cover_resize_stretch(img, ratio)
+    else:
+        new_cover = cover_resize_crop(img, ratio)
+
+    return new_cover
 
 
 if __name__ == "__main__":

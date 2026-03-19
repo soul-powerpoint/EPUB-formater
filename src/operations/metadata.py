@@ -1,6 +1,8 @@
 from src.epub_io.opf import OPFData, ManifestItem
+from .cover_resize import cover_resize_stretch, cover_resize_crop
 import zipfile
 import os
+import cv2
 
 def set_language(data: OPFData, language: str) -> OPFData:
     if not language or not language.strip():
@@ -27,3 +29,23 @@ def set_cover(epub_path: str, new_image_path: str, cover_item: ManifestItem) -> 
                 dst.writestr(item, src.read(item.filename))
 
     os.replace(tmp_path, epub_path)
+
+
+def resize_cover() -> None:
+
+    return None
+
+def download_cover(epub_path: str, opf_path: str, cover_item: ManifestItem):
+    cover_zip_path = cover_item.href
+
+    opf_dir = os.path.dirname(opf_path)
+    full_path = os.path.join(opf_dir, cover_zip_path) if opf_dir else cover_zip_path
+
+    with zipfile.ZipFile(epub_path, "r") as epub:
+        image_bytes = epub.read(full_path)
+
+    output_name = os.path.basename(cover_zip_path)
+    with open(output_name, "wb") as f:
+        f.write(image_bytes)
+
+    print(f"Saved cover to ./{output_name}")

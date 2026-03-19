@@ -1,6 +1,6 @@
 from .epub_io.container import get_opf_path
 from .epub_io.opf import parse_opf, save_opf, get_cover_item
-from .operations.metadata import set_language, set_cover
+from .operations.metadata import set_language, set_cover, download_cover
 
 class EpubFormator:
     def __init__(self, epub_path: str):
@@ -36,3 +36,11 @@ class EpubFormator:
 
         set_cover(self.epub_path, cover, cover_item)
         save_opf(self.epub_path, self.opf_path, self.data)
+
+
+    def download_cover(self) -> None:
+        cover_item = get_cover_item(self.data)
+        if cover_item is None:
+            raise ValueError("No cover image found in this EPUB")
+
+        download_cover(self.epub_path, self.opf_path, cover_item)

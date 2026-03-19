@@ -25,25 +25,32 @@ class EpubFormator:
 
     def get_cover(self):
         return self.data.cover_meta_id
+    
+
+    def get_epub_info(self):
+        print(f"Title:    {self.get_title()}")
+        print(f"Author:   {self.get_author()}")
+        print(f"Language: {self.get_language()}")
+        print(f"Cover ID: {self.get_cover()}")
 
 
     def set_language(self, language: str) -> None:
         set_language(self.data, language)
         save_opf(self.epub_path, self.opf_path, self.data)
+        print(f"Language set to '{language}'")
 
 
     def set_cover(self, cover: str) ->None:
         if self.cover_item is None:
             raise ValueError("No cover image found in this EPUB")
-
         set_cover(self.epub_path, cover, self.cover_item)
         save_opf(self.epub_path, self.opf_path, self.data)
+        print(f"Cover replaced with '{cover}'")
 
 
     def download_cover(self) -> None:
         if self.cover_item is None:
             raise ValueError("No cover image found in this EPUB")
-
         download_cover(self.epub_path, self.opf_path, self.cover_item)
 
 

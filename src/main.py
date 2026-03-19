@@ -34,6 +34,7 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument("-set-language", dest="language", help="BCP-47 language code")
     group.add_argument("-set-cover", dest="cover", help="Path to new cover image")
     group.add_argument("-download-cover", dest="download_cover", action="store_true", help="Download the cover")
+    group.add_argument("-cover-info", dest="cover_info", action="store_true", help="Get the cover info")
 
     return parser
 
@@ -45,19 +46,16 @@ def main():
     try:
         fmt = EpubFormator(args.epub)
         if args.info:
-            print(f"Title:    {fmt.get_title()}")
-            print(f"Author:   {fmt.get_author()}")
-            print(f"Language: {fmt.get_language()}")
-            print(f"Cover ID: {fmt.get_cover()}")
+            fmt.get_epub_info()
         elif args.language:
             fmt.set_language(args.language)
-            print(f"Language set to '{args.language}'")
         elif args.cover:
             fmt.set_cover(args.cover)
-            print(f"Cover replaced with '{args.cover}'")
         elif args.download_cover:
             fmt.download_cover()
-            print(f"Cover downloaded '{args.download_cover}'")
+            # print(f"Cover downloaded '{args.download_cover}'")
+        elif args.cover_info:
+            fmt.cover_info()
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
